@@ -7,10 +7,10 @@ const app = express();
 app.use(express.json());
 
 const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'mahasiswa_db'
+    host: process.env.HOST,
+    user: process.env.USER,
+    password: process.env.PASSWORD,
+    database: process.env.DB
 });
 
 db.connect(err => {
@@ -68,4 +68,4 @@ app.delete('/mahasiswa/:id', authenticateToken, (req, res) => {
     });
 });
 
-app.listen(3000, () => console.log('Server running on port 3000'));
+app.listen(5000, () => console.log('Server running on port 3000'));
