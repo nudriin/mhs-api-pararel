@@ -41,7 +41,9 @@ app.post('/login', (req, res) => {
 app.get('/mahasiswa', authenticateToken, (req, res) => {
     db.query("SELECT * FROM mahasiswa", (err, result) => {
         if (err) throw err;
-        res.json(result);
+        res.json({
+            data: result
+        });
     });
 });
 
@@ -49,7 +51,7 @@ app.post('/mahasiswa', authenticateToken, (req, res) => {
     const { nama, nim } = req.body;
     db.query("INSERT INTO mahasiswa (nama, nim) VALUES (?, ?)", [nama, nim], (err, result) => {
         if (err) throw err;
-        res.json({ id: result.insertId, nama, nim });
+        res.json({ data: { id: result.insertId, nama, nim } });
     });
 });
 
@@ -57,14 +59,14 @@ app.put('/mahasiswa/:id', authenticateToken, (req, res) => {
     const { nama, nim } = req.body;
     db.query("UPDATE mahasiswa SET nama=?, nim=? WHERE id=?", [nama, nim, req.params.id], (err) => {
         if (err) throw err;
-        res.json({ message: "Mahasiswa updated" });
+        res.json({ data: { message: "Mahasiswa updated" } });
     });
 });
 
 app.delete('/mahasiswa/:id', authenticateToken, (req, res) => {
     db.query("DELETE FROM mahasiswa WHERE id=?", [req.params.id], (err) => {
         if (err) throw err;
-        res.json({ message: "Mahasiswa deleted" });
+        res.json({ data: { message: "Mahasiswa deleted" } });
     });
 });
 
